@@ -1,7 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-
+use Laravel\Socialite\Facades\Socialite;
+use App\Http\Controllers\Auth\LoginController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -16,3 +17,29 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+
+// Route::get('/auth/redirect', function () {
+//     return Socialite::driver('google')->redirect();
+// });
+
+// Route::get('/auth/callback', function () {
+//     $user = Socialite::driver('google')->user();
+//     // $user->token
+// });
+
+//google
+Route::get('login/google',[LoginController::class,'redirectToGoogle'])->name('login.google');
+Route::get('login/google/callback',[LoginController::class,'handleGoogleCallback']);
+
+//facebook
+Route::get('login/facebook',[LoginController::class,'redirectToFacebook'])->name('login.facebook');
+Route::get('login/facebook/callback',[LoginController::class,'handleFacebookCallback']);
+
+//github
+Route::get('login/github',[LoginController::class,'redirectToGithub'])->name('login.github');
+Route::get('login/github/callback',[LoginController::class,'handleGithubCallback']);
